@@ -506,7 +506,7 @@ var chartoptions = {
     },
     chart: {
         className: 'pointChart',
-        margin: [10, 0, 50, 60],
+        margin: [10, 10, 50, 60],
         events: {
 
 
