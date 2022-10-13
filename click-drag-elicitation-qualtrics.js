@@ -1,16 +1,13 @@
 let params = document.getElementById('draw').dataset;
-console.log(params);
 
 let js_vars = {
-    interface: params.interface,
-    prediction: true,
-    nb_bins: Number(params.nb_bins),
+    nb_bins: Number(params.n_bins),
     min: Number(params.min),
     step: Number(params.step),
+		xAxisTitle: params.x_axis_title,
+		yAxisTitle: params.y_axis_title,
     yMax: 1,
-    playground: false,
-    screen_payoff: 0.01,
-    xUnit: '%',
+    xUnit: params.x_unit,
     min_timeout: 30000,
 }
 
@@ -20,8 +17,6 @@ function liveSend(data) {
 
 // -----
 
-const interface = js_vars.interface;
-const prediction = js_vars.prediction;
 
 const min = 0;
 const max = 1;
@@ -31,17 +26,12 @@ let nb_bins;
 let model_data;
 let min_tick;
 
-if (prediction) {
-    nb_bins = js_vars.nb_bins;
-    min_tick = js_vars.min;
-    step_tick = js_vars.step;
-    model_data = [1, 0];
-} else {
-    model_data = JSON.parse(js_vars.model_data);
-    nb_bins = model_data.length;
-    min_tick = min;
-    step_tick = (max - min) / (nb_bins - 1);
-}
+
+nb_bins = js_vars.nb_bins;
+min_tick = js_vars.min;
+step_tick = js_vars.step;
+model_data = [1, 0];
+
 
 const step = (max - min) / (nb_bins - 1);
 
@@ -60,14 +50,6 @@ var point_r = 10; //px
 
 let sent = false;
 
-function payoff(score) {
-    let payoff_val = Math.round(js_vars.screen_payoff * score * 100);
-    if (payoff_val > 1) {
-        return payoff_val + ' cents';
-    } else {
-        return payoff_val + ' cent';
-    }
-}
 
 function computevalue(sub) {
     let val = Math.round(100 * (1 - sub.reduce((a, b) => a + b, 0)));
@@ -79,14 +61,12 @@ function computevalue(sub) {
 }
 
 function senddata(delay_ms, serie) {
-    if (js_vars.playground != true) {
         liveSend({
             'history': {
                 'delay_ms': delay_ms,
                 'data': serie,
             }
-        });
-    }
+        }); 
 }
 
 function send_first() {
@@ -116,33 +96,6 @@ function settocurve() {
     });
 }
 
-function settobins() {
-    mode = "bins";
-
-    $('#bins_container').show();
-
-
-    bins.forEach(function(bin, i) {
-        bin.set(100 * chart.series[1].data[i].y / chart.yAxis[0].max);
-    });
-
-
-
-
-    chart.series[0].setState("inactive", true);
-    chart.series[0].update({
-        marker: {
-            enabled: false
-        },
-        opacity: 0,
-        dragDrop: {
-            draggableY: false,
-            draggableX: false,
-        },
-    });
-
-
-}
 
 
 
@@ -190,26 +143,6 @@ function stopdrag(point, e) {
 
 }
 
-function setgaussian(series, mean, sigma) {
-    let updatedata = [];
-    series.data.forEach(function(point) {
-        var new_point = (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((point.x - mean) / sigma, 2))
-        updatedata[point.index] = new_point;
-    });
-    series.setData(updatedata, true);
-}
-
-function setgaussians(series, means, sigmas, weights) {
-    let updatedata = [];
-    series.data.forEach(function(point) {
-        let new_point = 0;
-        for (i = 0; i < means.length; i = i + 1) {
-            new_point += weights[i] * (1 / (sigmas[i] * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((point.x - means[i]) / sigmas[i], 2));
-        }
-        updatedata[point.index] = new_point;
-    });
-    series.setData(updatedata, true);
-}
 
 function bindata() {
     var data = [];
@@ -229,19 +162,11 @@ function bindata_xy() {
 }
 
 function tickdisplay() {
-    if (prediction) {
-        return '{value} ' + js_vars.xUnit
-    } else {
-        return '{}'
-    }
+        return '{value} ' + js_vars.xUnit;
 }
 
 function xAxis_visible() {
-    if (prediction) {
         return true;
-    } else {
-        return false;
-    }
 }
 
 function tickPositions() {
@@ -513,30 +438,21 @@ var chartoptions = {
 
 
             click: function(e) {
-                if (interface == "ours") {
                     add_point(this.series[0], e.xAxis[0].value, e.yAxis[0].value)
-                }
             },
 
             load: function(e) {
                 startdate = Date.now();
 
 
-                if (interface != "metaculus") {
 
                     senddata(0, this.series[1].yData);
 
 
-                }
 
-
-
-                if (prediction) {
-                    maxval = js_vars.yMax
-                } else {
-                    maxval = Math.max.apply(Math, model_data);
-
-                }
+                
+                maxval = js_vars.yMax;
+               
                 if (maxval * zoom_area > 1) {
                     this.yAxis[0].setExtremes(0, 1);
                 } else {
@@ -548,19 +464,13 @@ var chartoptions = {
                     }
                 });
 
-                if (interface == "number") {
-                    this.update({
-                        yAxis: {
-                            visible: true
-                        }
-                    })
 
                     this.series[1].data.forEach(function(point) {
                         $('#binsinput').append('<input type="number" min="0" max="100" class="binsinput" id="bin_' + point.index + '" name="' + point.index + '">');
                     });
 
 
-                }
+          
 
 
 
@@ -569,28 +479,10 @@ var chartoptions = {
                 }
 
             },
-            render: function(e) {
+						render: function(e) {
+						
+						}
 
-
-
-                var canvas = this.series[2];
-                var sub = this.series[1].yData.map(function(num, idx) {
-                    return Math.abs(num - canvas.yData[idx]);
-                });
-                var value = computevalue(sub);
-                score = value / 100;
-
-                $('.progress-bar').css('width', value + '%').attr('aria-valuenow', value);
-                $('.progress-bar').html(value + ' %');
-                $('#score_cents').html(payoff(score));
-
-
-                bins.forEach(function(bin, i) {
-                    bin.set(100 * chart.series[1].data[i].y / chart.yAxis[0].max);
-                });
-
-
-            },
 
         }
     },
@@ -610,7 +502,7 @@ var chartoptions = {
             id: 'second',
             visible: xAxis_visible(),
             title: {
-                text: 'What will inflation in 2023 in the Euro Area be?'
+                text: js_vars.xAxisTitle,
             },
 
 
@@ -619,16 +511,13 @@ var chartoptions = {
             labels: {
                 formatter: function() {
                     let tick = min_tick + this.value * (nb_bins - 1) * step_tick;
-                    if (prediction) {
                         if (tick >= 1000) {
                             return Number((tick / 1000).toFixed(2)) + 'k ' + js_vars.xUnit;
                         } else {
                             return Number((tick).toFixed(2)) + ' ' + js_vars.xUnit;
 
                         }
-                    } else {
-                        return tick;
-                    }
+                    
                 },
 
 
@@ -651,7 +540,7 @@ var chartoptions = {
         visible: true,
 
         title: {
-            text: 'Probability'
+            text: js_vars.yAxisTitle
         },
         labels: {
             formatter: function() {
@@ -865,30 +754,15 @@ var chartoptions = {
 function drawDefaultChart() {
     chart = new Highcharts.Chart('draw', chartoptions);
 
-    if (interface == "ours") {
+
         settocurve();
-    } else {
-        settobins();
-    }
+   
 }
 
 $(document).ready(function() {
 
 
 
-    $(".otree-timer").appendTo("#timer");
-
-
-
-    $('.otree-timer__time-left').on('update.countdown', function(event) {
-
-        if (event.offset.totalSeconds <= js_vars.min_timeout) {
-            $('#validate_btn').prop("disabled", false);
-        }
-        if (event.offset.totalSeconds == js_vars.min_timeout) {
-            $(".toast").toast('show');
-        }
-    });
 
 
 
@@ -897,29 +771,9 @@ $(document).ready(function() {
 
 
 
-    function update_number(input) {
 
-        var bin = input.name;
-        chart.series[1].data[bin].update(parseFloat(input.value / 100));
-        senddata(Date.now() - startdate, chart.series[1].yData);
-    }
-
-
-    $(".binsinput")
-        .change(function() {
-            update_number(this);
-        })
-
-
-    $('input[type=radio][name=mode]').change(function() {
-        if (this.value == 'curve') {
-
-            settocurve();
-        } else if (this.value == 'bins') {
-
-            settobins();
-        }
-    });
+    
+    
 
     $('#normalize').click(function(e) {
         normalize();
@@ -953,7 +807,6 @@ $(document).ready(function() {
             });
             var max_height = chart.series[0].yData.reduce((a, b) => Math.max(a, b));
             saved.pop();
-            //chart.yAxis[0].setExtremes(0,max_zoom(max_height));
             chart.series[0].update({
                 dragDrop: {
                     dragMaxY: chart.yAxis[0].max
@@ -971,253 +824,7 @@ $(document).ready(function() {
 
     });
 
-    $('.binsinput').keydown(function(e) {
-        if (e.keyCode == 13) {
-            var inputs = $('.binsinput');
-            if (inputs[inputs.index(this) + 1] != null) {
-                inputs[inputs.index(this) + 1].focus();
-            } else {
-                update_number(this);
-            }
-            e.preventDefault();
-            return false;
-        }
-    });
+    
 
-
-    function pdf(x) {
-        return 1 / Math.sqrt(2 * Math.PI) * Math.exp(-(x ** 2) / 2);
-    }
-
-    function cdf(x) {
-        return (1 + math.erf(x / Math.sqrt(2))) / 2;
-    }
-
-    function compute_param(center, left_handle, right_handle) {
-        e = center;
-        w = right_handle - left_handle;
-        a = (left_handle - center) + (right_handle - center);
-        return [e, w, a];
-    }
-
-
-    function skew(x, e, w, a) {
-        t = (x - e) / w;
-        return 2 / w * pdf(t) * cdf(a * t);
-    }
-
-    if (interface == "metaculus") {
-
-        $("#add_component").show();
-
-
-
-        let left_handles = [];
-        let centers = [];
-        let right_handles = [];
-        let weights = [];
-
-        let sliders = [];
-
-
-        const startleft = 0;
-        const startright = 1;
-
-
-        function update_gauss() {
-
-            let updatedgauss = [];
-            chart.series[1].data.forEach(function(point) {
-                let new_point = 0;
-                for (i = 0; i < sliders.length; i = i + 1) {
-                    [e, w, a] = compute_param(centers[i], left_handles[i], right_handles[i]);
-                    new_point += weights[i] * skew(point.x, e, w, a);
-                }
-                updatedgauss.push(new_point);
-            });
-
-            let sum = updatedgauss.reduce((a, b) => a + b, 0);
-            let normalized_skew = [];
-            for (let val of updatedgauss) {
-                normalized_skew.push(val / sum);
-            }
-            chart.series[1].setData(normalized_skew, true, false, true);
-        }
-
-
-        function createslider(nameid) {
-
-            let slider = document.getElementById(nameid);
-            let id = parseInt(nameid.replace("slider_", ""));
-
-
-            sliders.push(noUiSlider.create(slider, {
-                start: [startleft, min + 0.5 * (max - min), startright],
-                connect: true,
-                range: {
-                    'min': min,
-                    'max': max
-                },
-
-            }));
-
-
-
-            weights = [];
-            for (var i = 0; i < (id + 1); i++) {
-                weights.push(1 / (id + 1));
-            }
-
-            left_handles.push(startleft);
-            centers.push(0);
-            right_handles.push(startright);
-
-            let left_handles_diff;
-            let right_handles_diff
-
-            slider.noUiSlider.on('start', function(values, handle, unencoded, tap, positions, noUiSlider) {
-                if (handle == 1) {
-                    left_handles_diff = math.abs(values[1] - values[0])
-                    right_handles_diff = math.abs(values[2] - values[1])
-                }
-            });
-
-            slider.noUiSlider.on('slide', function(values, handle, unencoded, tap, positions, noUiSlider) {
-                if (handle == 1) {
-                    if ((parseFloat(values[0]) <= min) && (math.abs(values[1] - values[0]) < left_handles_diff)) {
-                        slider.noUiSlider.setHandle(0, min, true, true);
-                    } else {
-                        slider.noUiSlider.setHandle(0, values[1] - left_handles_diff, true, true);
-                    }
-                    slider.noUiSlider.setHandle(2, parseFloat(values[1]) + parseFloat(right_handles_diff), true, true);
-
-
-
-
-                }
-            });
-
-
-            slider.noUiSlider.on('update', function(values) {
-
-                let id = this.target.id.replace("slider_", "");
-
-                left_handles[id] = parseFloat(values[0]);
-                centers[id] = parseFloat(values[1]);
-                right_handles[id] = parseFloat(values[2]);
-
-                update_gauss();
-                send_first();
-            });
-
-            slider.noUiSlider.on('end', function(values) {
-                save();
-
-            });
-
-
-        }
-
-
-
-
-        createslider("slider_0");
-
-        $('#add_component').on('click', function() {
-            let id = "slider_" + sliders.length;
-            $('#sliders').append('<div class="slider mt-3" id="' + id + '"></div>');
-            createslider(id);
-            $("#remove_component").show();
-        });
-
-        $('#remove_component').on('click', function() {
-            let slider = sliders.slice(-1);
-            slider[0].destroy();
-            sliders.pop();
-            left_handles.pop();
-            centers.pop();
-            right_handles.pop();
-            weights.pop();
-            $('.slider').last().remove();
-
-            weights = [];
-            for (var i = 0; i < sliders.length; i++) {
-                weights.push(1 / (sliders.length));
-            }
-
-            update_gauss();
-
-            if (sliders.length == 1) {
-                $("#remove_component").hide();
-            }
-        });
-
-
-    } else if ((interface == "bins") || (interface == "ours")) {
-
-        if (interface == "bins") {
-            $('#bins_container').show();
-        }
-        if (interface == "ours") {
-            $('#topchart').show();
-        }
-
-        function behaviour(interface) {
-            if (interface == 'bins') {
-                return "drag";
-            } else {
-                return "drag";
-            }
-        }
-
-
-        for (let i = 0; i < nb_bins; i++) {
-
-            $('#binsliders').append('<div class="binslider" id="bin_' + i + '"></div>');
-
-            let bin = document.getElementById("bin_" + i);
-
-
-            bins.push(noUiSlider.create(bin, {
-
-                start: [0],
-                behaviour: behaviour(interface),
-                connect: [true, false],
-                // Put '0' at the bottom of the slider
-                direction: 'rtl',
-                orientation: 'vertical',
-                range: {
-                    'min': 0,
-                    'max': 100
-                }
-            }));
-
-            bin.noUiSlider.on('update', function(values, handle) {
-
-                var value = values[handle];
-
-                let b = this.target.id.split('_')[1];
-                let new_val = parseFloat(value * chart.yAxis[0].max / 100);
-
-
-            });
-
-            bin.noUiSlider.on('end', function(values, handle) {
-
-                var value = values[handle];
-
-                let b = this.target.id.split('_')[1];
-                let new_val = parseFloat(value * chart.yAxis[0].max / 100);
-                if (new_val >= max_val) {
-                    new_val == max_val;
-                }
-                add_point(chart.series[0], b, new_val);
-
-
-            });
-
-        }
-
-    }
 
 });
