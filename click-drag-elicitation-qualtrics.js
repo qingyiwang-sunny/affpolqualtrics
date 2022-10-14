@@ -8,11 +8,12 @@ let js_vars = {
 		yAxisTitle: params.y_axis_title,
     yMax: 1,
     xUnit: params.x_unit,
-    min_timeout: 30000,
 }
 
+let history = [];
 function liveSend(data) {
-    console.log(data);
+    history.push(data);
+		console.log(history);
 }
 
 // -----
@@ -61,17 +62,18 @@ function computevalue(sub) {
 }
 
 function senddata(delay_ms, serie) {
-        liveSend({
-            'history': {
+        liveSend(
+            {
                 'delay_ms': delay_ms,
-                'data': serie,
+                'xData': serie.xData,
+								'yData':serie.yData,
             }
-        }); 
+        ); 
 }
 
 function send_first() {
     if (sent == false) {
-        senddata(0, chart.series[1].yData);
+        senddata(0, chart.series[1]);
         sent = true;
     }
 };
@@ -188,7 +190,7 @@ var initsaved = [
 var saved = initsaved.slice();
 
 function save() {
-    senddata(Date.now() - startdate, chart.series[1].yData);
+    senddata(Date.now() - startdate, chart.series[1]);
 
 
     var lastserie0 = [];
@@ -446,7 +448,7 @@ var chartoptions = {
 
 
 
-                    senddata(0, this.series[1].yData);
+                    senddata(0, this.series[1]);
 
 
 
@@ -480,7 +482,7 @@ var chartoptions = {
 
             },
 						render: function(e) {
-						
+						$("#data").html(this.series[1].yData.join());
 						}
 
 
@@ -784,7 +786,7 @@ $(document).ready(function() {
     $('#reset').click(function(e) {
         chart.series[0].setData(initdataspline.slice(), true);
         chart.series[1].setData(bindata(), true);
-        senddata(Date.now() - startdate, chart.series[1].yData);
+        senddata(Date.now() - startdate, chart.series[1]);
         bins.forEach(function(bin, i) {
             bin.set(100 * chart.series[1].data[i].y / chart.yAxis[0].max);
         });
@@ -801,7 +803,7 @@ $(document).ready(function() {
         if (saved.length > 1) {
             chart.series[0].setData(saved[saved.length - 2][0], true);
             chart.series[1].setData(saved[saved.length - 2][1], true);
-            senddata(Date.now() - startdate, chart.series[1].yData);
+            senddata(Date.now() - startdate, chart.series[1]);
             bins.forEach(function(bin, i) {
                 bin.set(100 * chart.series[1].data[i].y / chart.yAxis[0].max);
             });
