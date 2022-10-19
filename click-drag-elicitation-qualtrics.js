@@ -433,7 +433,7 @@ var chartoptions = {
     },
     chart: {
         className: 'pointChart',
-        margin: [10, 10, 50, 60],
+        margin: [10, 20, 60, 60],
         events: {
 
 
@@ -525,7 +525,7 @@ var chartoptions = {
 
 
                 style: {
-                    fontSize: '10px'
+                    fontSize: '9px'
                 },
                 y: 30,
             },
