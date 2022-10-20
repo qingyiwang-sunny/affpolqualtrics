@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # Click and drag belief elicitation interface for qualtrics
 
 ![](animated_gif/qualtrics_animated_gif.gif)
