@@ -75,4 +75,10 @@ To find where the js/css scripts are located
 
 ## Output data
 
-The plugin generates the following variables
+The plugin generates the following variables :
+| Result               | CSV/Excel column     | Example | Type |
+|:------------------------|:------------------|:-------------|:-------------|
+|  Coordonates of the bins         | DistributionResult| `[[0,0],[0.1,0],[0.2,0],[0.30000000000000004,0.6666666666666666]]`           | List of List |
+| History of the coordonates of the bins (time in ms) | DistributionHistory          | `[{"delay_ms":0,"xData":[0,0.1,0.2,0.30000000000000004,0.4,0.5,0.6000000000000001,0.7000000000000001,0.8,0.9,1],"yData":[0,0,0,0.6666666666666666,0.3333333333333333,0,0,0,0,0,0]},{"delay_ms":78585,"xData":[0,0.1,0.2,0.30000000000000004,0.4,0.5,0.6000000000000001,0.7000000000000001,0.8,0.9,1],"yData":[0,0,0,0.6666666666666666,0.3333333333333333,0,0,0,0,0,0]}]`            | List of Dict |
+| X coordanates of the bins       | DistributionXData         |      `0,0.1,0.2,0.30000000000000004`      | List |
+| Y coordanates of the bins            | DistributionYData | `0,0,0,0.6666666666666666` | List |
