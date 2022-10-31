@@ -75,10 +75,23 @@ To find where the js/css scripts are located
 
 ## Output data
 
-The plugin generates the following variables :
+The plugin generates the following variables:
+
 | Result               | CSV/Excel column     | Example | Type |
 |:------------------------|:------------------|:-------------|:-------------|
-|  Coordonates of the bins         | DistributionResult| `[[0,0],[0.1,0],[0.2,0],[0.30000000000000004,0.6666666666666666]]`           | List of List |
-| History of the coordonates of the bins (time in ms) | DistributionHistory          | `[{"delay_ms":0,"xData":[0,0.1,0.2,0.30000000000000004,0.4,0.5,0.6000000000000001,0.7000000000000001,0.8,0.9,1],"yData":[0,0,0,0.6666666666666666,0.3333333333333333,0,0,0,0,0,0]},{"delay_ms":78585,"xData":[0,0.1,0.2,0.30000000000000004,0.4,0.5,0.6000000000000001,0.7000000000000001,0.8,0.9,1],"yData":[0,0,0,0.6666666666666666,0.3333333333333333,0,0,0,0,0,0]}]`            | List of Dict |
-| X coordanates of the bins       | DistributionXData         |      `0,0.1,0.2,0.30000000000000004`      | List |
-| Y coordanates of the bins            | DistributionYData | `0,0,0,0.6666666666666666` | List |
+|  Coordinates of the bins         | `DistributionResult`| `[[0,0],[0.1,0],[0.2,0],[0.30000000000000004,0.6666666666666666]]`           | List of List |
+| History of the coordinates of the bins (time in ms) | `DistributionHistory`          | `[{"delay_ms":0,"xData":[0,0.1,0.2,0.30000000000000004,0.4,0.5,0.6000000000000001,0.7000000000000001,0.8,0.9,1],"yData":[0,0,0,0.6666666666666666,0.3333333333333333,0,0,0,0,0,0]},{"delay_ms":78585,"xData":[0,0.1,0.2,0.30000000000000004,0.4,0.5,0.6000000000000001,0.7000000000000001,0.8,0.9,1],"yData":[0,0,0,0.6666666666666666,0.3333333333333333,0,0,0,0,0,0]}]`            | List of Dict |
+| X coordinates of the bins       | `DistributionXData`         |      `0,0.1,0.2,0.30000000000000004`      | List |
+| Y coordinates of the bins            | `DistributionYData` | `0,0,0,0.6666666666666666` | List |
+
+In more detail, 
+
+- **DistributionResult** gives you the `[x,y]` position of each bin. The `x` position is the interval of the bin (e.g., if you ask the forecasted inflation for the US in 2024, it is "1%"). The `y` position is the height of that bin, given that the sum of y positions is normalized to 1. The `y` position gives you the subject's subjective probability assigned to that `x` category.
+
+- **DistributionHistory** records the `DistributionResult` after _each_ interaction with the interface (i.e, each click). It can be useful if you want to know the path followed by subjects to get to their final reply. It records the timestamp of the click (`delay_ms`) and the `x` and `y` data at that timestamp. 
+
+- **DistributionXData** is just the `x` dimension of `DistributionResult`
+
+- **DistributionYData** is just the `y` dimension of `DistributionResult`
+
+The labels of the bins and the main question are recorded in the `<div>` component of the qualtrics question. 
