@@ -19,8 +19,8 @@ function liveSend(data) {
 // -----
 
 
-const min = 0;
-const max = 1;
+let min = 0;
+let max = 1;
 
 let step_tick;
 let nb_bins;
@@ -34,9 +34,9 @@ step_tick = js_vars.step;
 model_data = [1, 0];
 
 
-const step = (max - min) / (nb_bins - 1);
+let step = (max - min) / (nb_bins - 1);
 
-const zoom_area = 1.1;
+let zoom_area = 1.1;
 let startdate;
 let max_val = 1;
 
