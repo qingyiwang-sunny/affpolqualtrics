@@ -6,7 +6,7 @@ let js_vars = {
     step: Number(params.step),
 		xAxisTitle: params.x_axis_title,
 		yAxisTitle: params.y_axis_title,
-    yMax: 1,
+    yMax: Number(params.y_max),
     xUnit: params.x_unit,
 }
 
