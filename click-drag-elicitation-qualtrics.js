@@ -426,7 +426,16 @@ function add_point_from_bins(bin) {
 
 }
 
-var chartoptions = {
+
+ function drawChart(parameters) {
+ 
+ 	if(parameters){
+ 	js_vars = parameters;
+ 	}
+     nb_bins = js_vars.nb_bins;
+     step = (max - min) / (nb_bins - 1);
+     
+    chart = new Highcharts.Chart('draw', {
 
     credits: {
         enabled: false
@@ -751,10 +760,7 @@ var chartoptions = {
             }
         }
     ]
-}
-
-function drawDefaultChart() {
-    chart = new Highcharts.Chart('draw', chartoptions);
+});
 
 
         settocurve();
@@ -765,11 +771,15 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-    drawDefaultChart();
+        drawChart({
+	nb_bins: 21,
+	min: Number(params.min),
+	step: Number(params.step),
+	xAxisTitle: params.x_axis_title,
+	yAxisTitle: params.y_axis_title,
+	yMax: 1,
+	xUnit: params.x_unit,
+});
 
 
 
