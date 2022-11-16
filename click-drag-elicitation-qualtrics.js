@@ -770,23 +770,6 @@ function add_point_from_bins(bin) {
 $(document).ready(function() {
 
 
-
-        drawChart({
-	nb_bins: 21,
-	min: Number(params.min),
-	step: Number(params.step),
-	xAxisTitle: params.x_axis_title,
-	yAxisTitle: params.y_axis_title,
-	yMax: 1,
-	xUnit: params.x_unit,
-});
-
-
-
-
-    
-    
-
     $('#normalize').click(function(e) {
         normalize();
 
