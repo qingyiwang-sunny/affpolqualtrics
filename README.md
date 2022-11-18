@@ -49,7 +49,7 @@ Predict using the interface: what will the inflation in the Euro Area in 2023 be
 To customize the belief elicitation interface you just need to edit these parameters in the `div` line :
 
 ``` html
-<div id="draw" data-n_bins="11" data-min="0" data-step="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%"></div>
+<div id="draw" data-n_bins="11" data-min="0" data-step="1" data-y_max="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%"></div>
 ```
 
 | Parameter               | Html variable     | Default Value|
@@ -57,6 +57,7 @@ To customize the belief elicitation interface you just need to edit these parame
 | Number of bins          | data-n_bins       | 11           |
 | Min value of the x axis | data-min          | 0            |
 | Step between bins       | data-step         | 1            |
+| Max value of the y axis | data-y_max        | 1            |
 | X axis Title            | data-x_axis_title | Distribution |
 | Y axis Title            | data-y_axis_title | Probability  |
 | X axis unit             | data-x_unit       | \%           |
@@ -65,6 +66,20 @@ To customize the belief elicitation interface you just need to edit these parame
 
 1.  Click on the question block. ![selecting a question and then clicking   Javascript](https://www.qualtrics.com/m/assets/support/wp-content/uploads/2021/04/JavaScript12.png)
 2.  In the `Question behavior` section, select JavaScript.
+3. If you need to set variables via javascript, you can simply uncomment the line :
+``` javascript
+drawChart(
+	/*
+	//if you need to set the parameters by javascript, uncomment and set this dictionary :
+	{nb_bins: 16,
+	min: 0,
+	step: 1,
+	xAxisTitle: "Distribution",
+	yAxisTitle: "Probability",
+	yMax: 1,
+	xUnit: "%",}
+	*/);
+```
 
 ### Libraries js/css (not required for installation)
 
