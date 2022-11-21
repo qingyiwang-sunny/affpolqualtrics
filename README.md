@@ -1,8 +1,16 @@
-# Click and drag belief elicitation interface for qualtrics
+# Click and drag belief elicitation interface for qualtrics/limesurvey
 
 ![](animated_gif/qualtrics_animated_gif.gif)
 
-This is the Qualtrics JavaScript plugin for the **Click and Drag** _belief elicitation interface_ presented by [Paolo Crosetto](https://paolocrosetto.wordpress.com/) and [Thomas De Haan](https://sites.google.com/view/thomas-de-haan). Details of the interface, a paper presenting its performance with respect to other interfaces, and oTree code are available on the [Click and Drag website](https://beliefelicitation.github.io/).
+This is the Qualtrics/Limesurvey JavaScript plugin for the **Click and Drag** _belief elicitation interface_ presented by [Paolo Crosetto](https://paolocrosetto.wordpress.com/) and [Thomas De Haan](https://sites.google.com/view/thomas-de-haan). Details of the interface, a paper presenting its performance with respect to other interfaces, and oTree code are available on the [Click and Drag website](https://beliefelicitation.github.io/).
+
+## Installation for Limesurvey
+### Import the .lsq template file
+You can simply download and import this [.lsq template
+file](https://raw.githubusercontent.com/beliefelicitation/qualtrics/main/limesurvey_Click-and-drag_elicitation_builder_template.lsq) into your questionnaire.
+
+Click on the image to see the tutorial :
+[![Click on the image to see the tutorial](https://img.youtube.com/vi/QEHyH1YbNEQ/0.jpg)](https://www.youtube.com/watch?v=QEHyH1YbNEQ)
 
 ## Installation for Qualtrics XM
 
