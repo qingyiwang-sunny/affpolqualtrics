@@ -39,7 +39,7 @@ Predict using the interface: what will the inflation in the Euro Area in 2023 be
     <button id="normalize" class="btn btn-primary" style="color: #fff;"  type="button">Normalize</button>
 </div>
 
-<div id="draw" data-n_bins="11" data-min="0" data-step="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%"></div>
+<div id="draw" data-n_bins="11" data-min="0" data-step="1" data-y_max="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%"></div>
 
 <div class="mt-2" style="text-align: center;margin-left:50px">
  <a class="btn btn-success" id="SubmitDistribution">Submit the distribution</a>
