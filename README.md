@@ -10,6 +10,7 @@ You can simply download and import this [.lsq template
 file](https://raw.githubusercontent.com/beliefelicitation/qualtrics/main/limesurvey_Click-and-drag_elicitation_builder_template.lsq) into your questionnaire.
 
 Click on the image to see the tutorial :
+
 [![Click on the image to see the tutorial](https://img.youtube.com/vi/QEHyH1YbNEQ/0.jpg)](https://www.youtube.com/watch?v=QEHyH1YbNEQ)
 
 ## Installation for Qualtrics XM
