@@ -33,32 +33,29 @@ into qualtrics :
 6.  Select a `Project Category`.
 7.  Click `Import`.
 
-### Custom the distribution graph
+### Custom the belief elicitation interface
 
-1.  Click on the question block.
-2.  Click on `Html View`
+1.  Click on the question block. ![selecting a question and then clicking   Javascript](https://www.qualtrics.com/m/assets/support/wp-content/uploads/2021/04/JavaScript12.png)
+2.  In the `Question behavior` section, select JavaScript.
+
+
 
 You will find:
 
-``` html
-Predict using the interface: what will the inflation in the Euro Area in 2023 be?
-<div style="text-align: right;">
-    <button id="undo"  class="btn  btn-warning"  disabled  type="button">Undo</button>
-    <button id="reset" class="btn  btn-danger" disabled  type="button">Reset</button>
-    <button id="normalize" class="btn btn-primary" style="color: #fff;"  type="button">Normalize</button>
-</div>
+``` javascript
+Qualtrics.SurveyEngine.addOnReady(function()
+{
+   $('.QuestionText').append('<div class="chart" data-n_bins="11" data-min="0" data-step="1" data-y_max="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%" data-distribution_result="DistributionResult1" data-distribution_ydata="DistributionYData1" data-distribution_xdata="DistributionXData1" data-distribution_history="DistributionHistory1"></div>');
 
-<div id="draw" data-n_bins="11" data-min="0" data-step="1" data-y_max="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%"></div>
+   $.getScript("https://cdn.jsdelivr.net/gh/beliefelicitation/qualtrics@1.1.4/click-drag-elicitation-qualtrics.js");
 
-<div class="mt-2" style="text-align: center;margin-left:50px">
- <a class="btn btn-success" id="SubmitDistribution">Submit the distribution</a>
-</div>
+});
 ```
 
-To customize the belief elicitation interface you just need to edit these parameters in the `div` line :
+To customize the belief elicitation interface you just need to edit these parameters in the `$('.QuestionText')` line :
 
-``` html
-<div id="draw" data-n_bins="11" data-min="0" data-step="1" data-y_max="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%"></div>
+``` javascript
+'<div class="chart" data-n_bins="11" data-min="0" data-step="1" data-y_max="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%" data-distribution_result="DistributionResult1" data-distribution_ydata="DistributionYData1" data-distribution_xdata="DistributionXData1" data-distribution_history="DistributionHistory1"></div>'
 ```
 
 | Parameter               | Html variable     | Default Value|
@@ -70,24 +67,16 @@ To customize the belief elicitation interface you just need to edit these parame
 | X axis Title            | data-x_axis_title | Distribution |
 | Y axis Title            | data-y_axis_title | Probability  |
 | X axis unit             | data-x_unit       | \%           |
+| DistributionResult             | data-distribution_result      | DistributionResult1         |
+| DistributionHistory             | data-distribution_ydata      | DistributionYData1           |
+| DistributionXData             | data-distribution_xdata       | DistributionXData1           |
+| DistributionYData             | data-distribution_history       | DistributionHistory1           |
 
-### Javascript code (not required for installation)
+Attention, the variable names for the data (DistributionResult1,DistributionYData1,etc.) must be the same as in the "Survey Flow" tab for Embedded data. See : https://www.qualtrics.com/support/survey-platform/survey-module/survey-flow/standard-elements/embedded-data/
 
-1.  Click on the question block. ![selecting a question and then clicking   Javascript](https://www.qualtrics.com/m/assets/support/wp-content/uploads/2021/04/JavaScript12.png)
-2.  In the `Question behavior` section, select JavaScript.
-3. If you need to set variables via javascript, you can simply uncomment the line :
-``` javascript
-drawChart(
-	/*
-	//if you need to set the parameters by javascript, uncomment and set this dictionary :
-	{nb_bins: 16,
-	min: 0,
-	step: 1,
-	xAxisTitle: "Distribution",
-	yAxisTitle: "Probability",
-	yMax: 1,
-	xUnit: "%",}
-	*/);
+The div rendering the chart is injected by jquery (append) in the question block. You can also insert the div in the source code of the question block instead:
+``` html
+<div class="chart" data-n_bins="11" data-min="0" data-step="1" data-y_max="1" data-x_axis_title="Distribution" data-y_axis_title="Probability" data-x_unit="%" data-distribution_result="DistributionResult1" data-distribution_ydata="DistributionYData1" data-distribution_xdata="DistributionXData1" data-distribution_history="DistributionHistory1"></div>
 ```
 
 ### Libraries js/css (not required for installation)
