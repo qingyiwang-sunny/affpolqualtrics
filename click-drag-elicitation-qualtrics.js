@@ -1,7 +1,7 @@
 $( document ).ready(function() {
     $('.chart').each(function( index ) {
     chart(index, $( this ).data());
-    $( this ).before('<div style="text-align: right;"><button  class="undo btn  btn-warning mx-1"  disabled  type="button">Undo</button><button class="reset btn  btn-danger  mx-1" disabled  type="button">Reset</button><button class="normalize btn btn-primary  mx-1" style="color: #fff;"  type="button">Normalize</button></div>');
+    $( this ).before('<div style="text-align: right;"><button  class="undo btn  btn-warning mx-1"  disabled  type="button">Undo</button><button class="reset btn  btn-danger  mx-1" disabled  type="button">Reset</button><button class="normalize btn btn-primary  mx-1" style="color: #fff;"  type="button">Scale to Sum to 100</button></div>');
     $( this ).after('<div class="mt-2" style="text-align: center;margin-left:50px"><a class="SubmitDistribution btn btn-success">Submit the distribution</a></div>');
     });
 
@@ -572,7 +572,7 @@ $( document ).ready(function() {
                 labels: {
                     formatter: function() {
 
-                        return Math.round(100 * this.value) + " %";
+                        return Math.round(100 * this.value);
 
 
                     },
