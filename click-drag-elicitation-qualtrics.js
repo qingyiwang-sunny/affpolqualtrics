@@ -723,7 +723,7 @@ $( document ).ready(function() {
                     pointPadding: 0.05,
                     groupPadding: 0.05,
                     borderWidth: 0,
-                    color: "#007bff",
+                    color: "#000080",
                 },
 
 
