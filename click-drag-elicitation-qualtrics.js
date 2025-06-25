@@ -1,7 +1,7 @@
 $( document ).ready(function() {
     $('.chart').each(function( index ) {
     chart(index, $( this ).data());
-    $( this ).before('<div style="text-align: right;"><button  class="undo btn  btn-warning mx-1"  disabled  type="button">Undo</button><button class="reset btn  btn-danger  mx-1" disabled  type="button">Reset</button><button class="normalize btn btn-primary  mx-1" style="color: #fff;"  type="button">Scale to Sum to 100</button></div>');
+    $( this ).before('<div style="text-align: right;"><button  class="undo btn  btn-warning mx-1"  disabled  type="button">Undo</button><button class="reset btn  btn-danger  mx-1" disabled  type="button">Reset</button><button class="normalize btn btn-primary  mx-1" style="color: #fff;"  type="button">Adjust Sum to 100</button></div>');
     $( this ).after('<div class="mt-2" style="text-align: center;margin-left:50px"><a class="SubmitDistribution btn btn-success">Submit the distribution</a></div>');
     });
 
@@ -613,7 +613,6 @@ $( document ).ready(function() {
                     marker: {
                         enabled: true,
                         radius: point_r,
-                        color: '#000000',
                         states: {
                             hover: {
                                 radiusPlus: 0,
