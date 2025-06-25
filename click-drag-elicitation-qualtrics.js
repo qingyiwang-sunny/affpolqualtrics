@@ -550,7 +550,7 @@ $( document ).ready(function() {
 
 
                         style: {
-                            fontSize: '9px'
+                            fontSize: '12px'
                         },
                         y: 30,
                     },
@@ -577,7 +577,7 @@ $( document ).ready(function() {
 
                     },
                     style: {
-                        fontSize: '10px'
+                        fontSize: '12px'
                     },
                     x: -10
                 },
