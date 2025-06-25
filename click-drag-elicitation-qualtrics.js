@@ -530,6 +530,9 @@ $( document ).ready(function() {
                     visible: xAxis_visible(),
                     title: {
                         text: js_vars.xAxisTitle,
+                        style: {
+                        fontSize: '16px' // Set x-axis title font size
+                        }
                     },
 
 
@@ -567,7 +570,10 @@ $( document ).ready(function() {
                 visible: true,
 
                 title: {
-                    text: js_vars.yAxisTitle
+                    text: js_vars.yAxisTitle,
+                    style: {
+                        fontSize: '16px' // Set y-axis title font size
+                        }
                 },
                 labels: {
                     formatter: function() {
