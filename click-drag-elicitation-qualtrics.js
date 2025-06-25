@@ -613,6 +613,7 @@ $( document ).ready(function() {
                     marker: {
                         enabled: true,
                         radius: point_r,
+                        fillColor: '#000000',
                         states: {
                             hover: {
                                 radiusPlus: 0,
