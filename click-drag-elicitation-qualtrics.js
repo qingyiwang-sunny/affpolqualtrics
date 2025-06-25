@@ -550,7 +550,7 @@ $( document ).ready(function() {
 
 
                         style: {
-                            fontSize: '12px'
+                            fontSize: '16px'
                         },
                         y: 30,
                     },
@@ -577,7 +577,7 @@ $( document ).ready(function() {
 
                     },
                     style: {
-                        fontSize: '12px'
+                        fontSize: '16px'
                     },
                     x: -10
                 },
@@ -723,7 +723,7 @@ $( document ).ready(function() {
                     pointPadding: 0.05,
                     groupPadding: 0.05,
                     borderWidth: 0,
-                    color: "#000080",
+                    color: "#2980b9",
                 },
 
 
